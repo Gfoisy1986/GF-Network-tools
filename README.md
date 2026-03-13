@@ -1,8 +1,8 @@
 # GF‑Fortran‑SDK 
 
-## En cours de développement...  Currently in development...
+### En cours de développement...  Currently in development...
 
-### Fortran95 SDK — Bilingual README (FR/EN)
+## Fortran95 SDK — Bilingual README (FR/EN)
 
 ---
 
