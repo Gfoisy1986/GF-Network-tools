@@ -11,17 +11,3 @@ server.pem
 # OpenSSL junk
 *.p12
 *.pfx
-
-# Fortran build artifacts
-*.o
-*.mod
-*.smod
-*.a
-*.so
-*.dll
-*.dylib
-
-# Build directories
-/build/
-/bin/
-/obj/

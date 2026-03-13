@@ -1,64 +1,76 @@
-program wss_server
-  use iso_c_binding
-  use websocket
-  use tls_module
-  implicit none
+module wss_server_mod
+    use ws_clients
+    use ws_router
+    use websocket
+    use select_wrapper
+    use websocket_handshake
+    use ws_tls_shim
+    implicit none
 
-  integer(c_int) :: server, client, rc, n
-  character(kind=c_char, len=4096) :: req
-  logical :: ok
-  character(len=:), allocatable :: msg
+    integer, parameter :: OP_CONTINUATION = 0
+    integer, parameter :: OP_BINARY       = 2
+    integer, parameter :: OP_PING         = 9
+    integer, parameter :: OP_PONG         = 10
 
-  ! Initialize TLS server (no return value)
-  call tls_init_server_f()
+contains
 
-  ! Listen on port 4433
-  server = tls_listen_f(4433_c_int)
-  if (server < 0) then
-     print *, "Failed to listen on port 4433"
-     stop
-  end if
+    subroutine run_wss_server()
+        integer :: listen_sock
+        integer :: newsock, cid
+        logical :: ready_listen
+        logical :: ready_clients(MAX_CLIENTS)
+        integer :: i, opcode
+        character(len=2048) :: payload
+        logical :: running
 
-  print *, "WSS server listening on port 4433..."
+        ! Création du socket d’écoute (TLS ou non, selon ton wrapper)
+        call create_listen_socket(listen_sock)   ! <-- ton wrapper existant
 
-  do
-     client = tls_accept_f(server)
-     if (client < 0) then
-        print *, "Accept failed"
-        cycle
-     end if
+        running = .true.
+        do while (running)
 
-     print *, "Client connected."
+            ! NOTE : signature corrigée, conforme à select_wrapper.f90
+            call wait_for_activity(listen_sock, ready_listen, ready_clients)
 
-     n = tls_recv_f(client, req, len(req))
-     if (n <= 0) then
-        print *, "Client closed before handshake."
-        call tls_close_f(client)
-        cycle
-     end if
+            ! Nouvelle connexion
+            if (ready_listen) then
+                call accept_client(listen_sock, newsock)  ! <-- ton wrapper existant
+                cid = add_client(newsock)
+                if (cid < 0) then
+                    print *, "Server full, rejecting client"
+                    ! call close_socket(newsock)
+                else
+                    print *, "New client connected, id=", cid, " sock=", newsock
+                end if
+            end if
 
-     ok = ws_handle_upgrade(client, req(1:n))
-     if (.not. ok) then
-        print *, "Not a WebSocket upgrade, closing."
-        call tls_close_f(client)
-        cycle
-     end if
+            ! Activité des clients existants
+            do i = 1, MAX_CLIENTS
+                if (.not. clients(i)%active) cycle
+                if (.not. ready_clients(i)) cycle
 
-     print *, "WebSocket handshake completed."
+                call ws_read_frame(clients(i)%socket, opcode, payload)
 
-     do
-        ok = ws_recv_text(client, msg)
-        if (.not. ok) then
-           print *, "Client closed or error."
-           exit
-        end if
+                select case (opcode)
+                case (OP_TEXT)
+                    call ws_route(trim(payload), i)
 
-        print *, "Received: ", trim(msg)
-        call ws_send_text(client, "echo: "//trim(msg))
-     end do
+                case (OP_CLOSE)
+                    print *, "Client", i, "requested close"
+                    call remove_client(i)
 
-     call tls_close_f(client)
-     print *, "Client disconnected."
-  end do
+                case (OP_PING)
+                    ! ici tu peux répondre avec un PONG si tu as ws_send_pong()
 
-end program wss_server
+                case default
+                    ! ignorer ou logger
+                end select
+            end do
+
+        end do
+
+        ! TODO : fermer tous les sockets proprement ici
+
+    end subroutine run_wss_server
+
+end module wss_server_mod
