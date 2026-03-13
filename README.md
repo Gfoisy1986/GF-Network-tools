@@ -89,7 +89,7 @@ Fenêtres, boutons, labels, sliders, layout automatique, intégration réseau.
 
 ---
 
-##👤 Auteur
+## 👤 Auteur
 Guillaume Foisy  
 Créateur de GF‑Fortran‑SDK
 Passionné par la modernisation de l’écosystème Fortran
@@ -181,7 +181,7 @@ Windows, buttons, labels, sliders, automatic layout, network integration.
 
 ---
 
-##👤 Author
+## 👤 Author
 Guillaume Foisy  
 Creator of GF‑Fortran‑SDK
 Dedicated to modernizing the Fortran ecosystem
