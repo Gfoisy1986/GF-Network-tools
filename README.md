@@ -95,4 +95,13 @@ Chaque section aura son propre README détaillé plus tard.
 
 ---
 
+## Dépendances externes
+
+GF‑Fortran‑SDK nécessite un compilateur Fortran compatible F95 ou supérieur :
+- GNU Fortran (recommandé)
+- Intel Fortran
+- LLVM Flang
+
+---
+
 Guillaume Foisy
