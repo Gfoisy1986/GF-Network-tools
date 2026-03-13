@@ -1,11 +1,11 @@
-# **GF‑Network‑Tools**
+# **GF‑Fortran-SDK**
 Un ensemble d’outils réseau modulaires écrits en **Fortran** avec des **wrappers C**, conçus pour construire des serveurs et clients modernes : TCP, TLS et WebSocket.  
 Le projet met l’accent sur une architecture claire, modulaire et extensible, inspirée des environnements de développement simples comme PureBasic, mais avec la puissance et la performance du backend Fortran/C.
 
 ---
 
 ## 🚀 **Vision du projet**
-GF‑Network‑Tools vise à offrir :
+GF‑Fortran-SDK vise à offrir :
 
 - **Un backend réseau moderne en Fortran**, propre et portable  
 - **Des modules indépendants** pour TCP, TLS et WebSocket  
