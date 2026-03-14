@@ -99,18 +99,25 @@ Fenêtres, boutons, labels, sliders, layout automatique, intégration réseau.
 - Licence MIT très permissive  
 - Intégration simple avec C et Fortran  
 
-### 🟠 NASM — Assembleur x86/x64 (BSD 2‑clause)
+### 🟠 NASM — Assembleur x86/x64 (BSD 2‑clause) Version 3.01 
+- Executable testée sur tout c'est plateforme:
+* Windows -> x86_64 / x86_32
+* DOS     -> 386+
 - Assembleur moderne, stable et très utilisé  
 - Idéal pour les routines bas niveau et l’optimisation  
 - Licence BSD très permissive  
 - Facile à redistribuer dans le SDK  
 
-### 🟦 GCC — Compilateur C (GPL)
+### 🟦 GCC — Compilateur C (GPL) Version 13.2.0 
+- Executable testée sur tout c'est plateforme:
+* Windows -> x86_64
 - Backend C utilisé pour les wrappers et les modules système  
 - Très portable, fiable et mature  
 - Redistribuable avec simple lien vers les sources GCC  
 
-### 🟩 GFortran — Compilateur Fortran95 (GPL)
+### 🟩 GFortran — Compilateur Fortran95 (GPL) Version 13.2.0
+- Executable testée sur tout c'est plateforme:
+* Windows -> x86_64
 - Compilateur recommandé pour le SDK  
 - Compatible Fortran95+  
 - Redistribuable avec simple lien vers les sources GCC  
@@ -225,19 +232,26 @@ Windows, buttons, labels, sliders, automatic layout, network integration.
 - MIT license (very permissive)  
 - Easy to embed in C applications and integrate with GCC/gfortran  
 
-### 🟠 NASM — x86/x64 Assembler (BSD 2‑Clause License)
+### 🟠 NASM — x86/x64 Assembler (BSD 2‑Clause License) Version 3.01 
+- Executable tested on all listed plateforms:
+* Windows -> x86_64 / x86_32
+* DOS     -> 386+
 - Modern, stable assembler for low‑level routines  
 - Perfect for performance‑critical code and system‑level modules  
 - BSD license (permissive and redistribution‑friendly)  
 - Simple to package inside the SDK  
 
-### 🟦 GCC — C Compiler (GPL License)
+### 🟦 GCC — C Compiler (GPL License) Version 13.2.0
+- Executable tested on all listed plateforms:
+* Windows -> x86_64
 - Backend used for C wrappers and system modules  
 - Mature, portable, and widely supported  
 - Redistributable as long as a link to GCC source code is provided  
 - Works seamlessly with NASM and Lua tooling  
 
-### 🟩 GFortran — Fortran95 Compiler (GPL License)
+### 🟩 GFortran — Fortran95 Compiler (GPL License) Version 13.2.0 
+- Executable tested on all listed plateforms:
+* Windows -> x86_64
 - Recommended compiler for the SDK  
 - Fully compatible with Fortran95+  
 - Redistributable with a link to GCC sources  
