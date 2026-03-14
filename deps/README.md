@@ -1,4 +1,4 @@
-# GF‑Fortran‑SDK (deps/)
+# GF‑Fortran‑SDK
 
 ### Dépendances externes --  External Dependencies
 
