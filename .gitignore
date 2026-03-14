@@ -19,5 +19,5 @@ server.pem
 # Build artifacts
 *.o
 *.a
-*.so
+
 build/
