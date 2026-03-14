@@ -5,6 +5,29 @@ Source: https://www.lua.org/
 
 ---
 
+## GCC / gfortran License (GPL)
+
+The GCC and gfortran binaries included in this SDK are redistributed under the
+terms of the GNU General Public License (GPL).
+
+Source code for GCC is available at:
+https://gcc.gnu.org/
+
+No modifications were made to the GCC or gfortran binaries.
+
+
+---
+
+## NASM License (BSD 2-Clause)
+
+NASM is redistributed under the BSD 2-Clause license.
+Copyright (c) The NASM Authors.
+
+Source: https://www.nasm.us/
+
+
+---
+
 ## f90gl NIST-lisence
 
 ```
@@ -39,6 +62,7 @@ property. The software was developed by NIST employees. NIST employee
 contributions are not subject to copyright protection within the United States.
 
 ```
+
 
 ---
 
@@ -225,27 +249,5 @@ contributions are not subject to copyright protection within the United States.
    
 ```
 
----
 
-## GCC / gfortran License (GPL)
-
-The GCC and gfortran binaries included in this SDK are redistributed under the
-terms of the GNU General Public License (GPL).
-
-Source code for GCC is available at:
-https://gcc.gnu.org/
-
-No modifications were made to the GCC or gfortran binaries.
-
-
----
-
-## NASM License (BSD 2-Clause)
-
-NASM is redistributed under the BSD 2-Clause license.
-Copyright (c) The NASM Authors.
-
-Source: https://www.nasm.us/
-
----
 
