@@ -1,6 +1,10 @@
 # Architecture du SDK
 
-Ce document décrit la structure interne du SDK et explique comment ajouter de nouvelles fonctionnalités, couches ou modules de manière cohérente et maintenable.
+Ce document décrit la structure interne du SDK,
+
+Puis explique comment ajouter de nouvelles fonctionnalités,
+
+couches ou modules de manière cohérente et maintenable.
 
 ---
 
