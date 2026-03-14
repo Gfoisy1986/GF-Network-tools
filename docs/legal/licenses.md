@@ -28,7 +28,7 @@ Source: https://www.nasm.us/
 
 ---
 
-## f90gl NIST-lisence
+## f90gl License (NIST)
 
 ```
 
