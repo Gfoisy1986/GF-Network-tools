@@ -1,4 +1,4 @@
-# 🛠️ `tools/` — Outils et utilitaires du GF‑Fortran‑SDK  
+# Outils et utilitaires du GF‑Fortran‑SDK  
 
 *Scripts, générateurs, assistants et outils externes*
 
@@ -44,12 +44,4 @@ Cette section accueillera progressivement :
 
 ---
 
-## 🧩 Ajouter un nouvel outil
-
-1. Créer un sous‑dossier dans `tools/` ou `tools/script/`  
-2. Ajouter le script ou l’outil avec une documentation minimale  
-3. S’assurer que l’outil est portable ou préciser les plateformes supportées  
-4. Ajouter une entrée dans ce README si nécessaire  
-
----
 

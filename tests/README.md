@@ -1,4 +1,5 @@
-🧪 Tests — GF‑Fortran‑SDK
+# Tests — GF‑Fortran‑SDK
+
 Ce répertoire contient l’ensemble des tests automatisés du GF‑Fortran‑SDK.
 Ils assurent la stabilité, la compatibilité et la maintenabilité des modules du SDK (réseau, API, wrappers C, serveurs, outils, etc.).
 

@@ -1,4 +1,4 @@
-# 📚 Documentation du GF‑Fortran‑SDK  
+# Documentation du GF‑Fortran‑SDK  
 *Section `docs/` — Référence complète, guides et tutoriels*
 
 Cette section contient **toute la documentation officielle du GF‑Fortran‑SDK**.  

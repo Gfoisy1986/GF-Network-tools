@@ -1,4 +1,4 @@
-# 📦 `include/` — Headers & API Interfaces  
+# Headers & API Interfaces  
 *GF‑Fortran‑SDK*
 
 Ce répertoire contient les **interfaces publiques**, les **modules d’en-tête** et les **définitions d’API** exposées par le GF‑Fortran‑SDK.  
