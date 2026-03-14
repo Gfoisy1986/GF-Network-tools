@@ -2,6 +2,7 @@
 
 ### En cours de développement...  Currently in development...
 
+## Some License need ajustement as we dont find original one and is not packed with distributing we have to contact each project official to get one please be patient....
 ---
 
 <details>
