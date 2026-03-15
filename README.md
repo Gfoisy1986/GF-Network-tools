@@ -45,15 +45,6 @@ Fenêtres, boutons, labels, sliders, layout automatique, intégration réseau.
 
 ---
 
-
-## 👤 Auteur
-
-* Guillaume Foisy  
-
-* Passionné par la modernisation de l’écosystème Fortran
-
-* Dedicated to modernizing the Fortran ecosystem
-
 </details>
 
 ---
@@ -98,17 +89,15 @@ Windows, buttons, labels, sliders, automatic layout, network integration.
 
 ---
 
+</details>
 
-## 👤 Author
+
+---
+
+## 👤 Auteur  /  Author
 
 * Guillaume Foisy  
 
 * Passionné par la modernisation de l’écosystème Fortran
 
 * Dedicated to modernizing the Fortran ecosystem
-
-</details>
-
-
----
-
