@@ -123,48 +123,55 @@ if p then
                                                     end
 
                                                     ------------------------------------------------------------
-                                                    -- build <project>
-                                                    ------------------------------------------------------------
-                                                    if cmd == "build" then
-                                                        local name = arg[2]
-                                                        if not name then
-                                                            print("Usage: gf build <project>")
-                                                            return
-                                                            end
+													-- build <project>
+													------------------------------------------------------------
+													if cmd == "build" then
+														local name = arg[2]
+														if not name then
+															print("Usage: gf build <project>")
+															return
+														end
 
-                                                            require_tool("gfortran")
+														
+                                                         if os.execute('gfortran -v') then
+														
 
-                                                            print("Building project:", name)
+														print("Building project:", name)
 
-                                                            local src_dir = name .. "/src"
-                                                            local out = name .. "/build/app"
-                                                            if is_windows then out = out .. ".exe" end
+														local src_dir = name .. "/src"
+														local out = name .. "/build/app"
+														if is_windows then
+															out = out .. ".exe"
+														end
 
-                                                                local compile_cmd
+														local compile_cmd
 
-                                                                if is_windows then
-                                                                    local files = list_f90_files(src_dir)
-                                                                    if #files == 0 then
-                                                                        print("Error: no .f90 files found in " .. src_dir)
-                                                                        return
-                                                                        end
+														if is_windows then
+															-- Windows: need to manually list .f90 files
+															local files = list_f90_files(src_dir)
+															if #files == 0 then
+																print("Error: no .f90 files found in " .. src_dir)
+																return
+															end
 
-                                                                        local file_list = ""
-                                                                        for _, f in ipairs(files) do
-                                                                            file_list = file_list .. '"' .. src_dir .. '\\' .. f .. '" '
-                                                                            end
+															local file_list = ""
+															for _, f in ipairs(files) do
+																file_list = file_list .. '"' .. src_dir .. '\\' .. f .. '" '
+															end
 
-                                                                            compile_cmd = 'gfortran ' .. file_list .. ' -o "' .. out .. '"'
-                                                                            else
-                                                                                compile_cmd = 'gfortran ' .. src_dir .. '/*.f90 -o ' .. out
-                                                                                end
+															compile_cmd = 'gfortran ' .. file_list .. ' -o "' .. out .. '"'
+														else
+															-- Unix: globbing works
+															compile_cmd = 'gfortran ' .. src_dir .. '/*.f90 -o ' .. out
+														end
 
-                                                                                os.execute(compile_cmd)
+														os.execute(compile_cmd)
 
-                                                                                print("Build complete → " .. out)
-                                                                                return
-                                                                                end
-
+														print("Build complete → " .. out)
+														return
+														end
+													end
+                                                         
                                                                                 ------------------------------------------------------------
                                                                                 -- run <project>
                                                                                 ------------------------------------------------------------
