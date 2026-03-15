@@ -23,6 +23,12 @@ Pour le reste, tu auras simplement besoin d’un terminal (Linux/macOS) ou Power
 
 🧰 Scripts Lua & Commandes disponibles
 J’ai écrit un script Lua pour simplifier les tâches courantes.
+
+Windows : .\gf.ps1
+
+Linux & MacOS : ./gf.sh
+
+
 Voici quelques exemples sous Linux :
 
 ▶️ Test rapide
@@ -83,6 +89,12 @@ You’ll only need a terminal (Linux/macOS) or PowerShell (Windows) for the rest
 
 🧰 Lua Script & Available Commands
 A Lua script is included to simplify common tasks.
+
+Windows : .\gf.ps1
+
+Linux & MacOS : ./gf.sh
+
+
 Here are some Linux examples:
 
 ▶️ Quick test
