@@ -1,7 +1,8 @@
 ------------------------------------------------------------
--- GF Unified CLI (Portable SDK)
+-- GF Unified CLI (System‑Wide Toolchain Version)
 ------------------------------------------------------------
--- List .f90 files on Windows (CMD does not expand wildcards)
+
+-- Utility: list .f90 files on Windows (CMD does not expand wildcards)
 local function list_f90_files(path)
 local files = {}
 local p = io.popen('dir "' .. path .. '" /b 2>nul')
@@ -16,261 +17,234 @@ if p then
             return files
             end
 
--- 1. Detect script directory
-local function script_dir()
-local info = debug.getinfo(1, "S")
-local path = info.source:sub(2)
-return path:match("(.*/)") or path:match("(.*\\)")
-end
+            ------------------------------------------------------------
+            -- 1. Detect script directory
+            ------------------------------------------------------------
+            local function script_dir()
+            local info = debug.getinfo(1, "S")
+            local path = info.source:sub(2)
+            return path:match("(.*/)") or path:match("(.*\\)")
+            end
 
-local SCRIPT_DIR = script_dir():gsub("\\", "/")
+            local SCRIPT_DIR = script_dir():gsub("\\", "/")
 
--- 2. Compute SDK root
-local SDK_ROOT = SCRIPT_DIR .. "../.."
-SDK_ROOT = SDK_ROOT:gsub("\\", "/")
+            ------------------------------------------------------------
+            -- 2. Compute SDK root
+            ------------------------------------------------------------
+            local SDK_ROOT = SCRIPT_DIR .. "../.."
+            SDK_ROOT = SDK_ROOT:gsub("\\", "/")
 
--- 3. Load path.cfg from same folder as gf.lua
-local cfg = {}
-for line in io.lines(SCRIPT_DIR .. "path.cfg") do
-    local k, v = line:match("([^=]+)=(.+)")
-    if k and v then cfg[k] = v end
-        end
+            ------------------------------------------------------------
+            -- 3. Detect OS + architecture
+            ------------------------------------------------------------
+            local is_windows = package.config:sub(1,1) == "\\"
+            local osname = is_windows and "windows" or "unix"
 
-        -- 4. Detect OS
-        local is_windows = package.config:sub(1,1) == "\\"
-        local osname = is_windows and "windows" or "unix"
+            local arch = jit and jit.arch
+            or os.getenv("PROCESSOR_ARCHITECTURE")
+            or os.getenv("HOSTTYPE")
+            or "unknown"
 
-        -- 5. Detect architecture
-        local arch = jit and jit.arch
-        or os.getenv("PROCESSOR_ARCHITECTURE")
-        or os.getenv("HOSTTYPE")
-        or "unknown"
+            arch = arch:lower()
+            if arch == "amd64" or arch == "x86_64" then arch = "x86_64" end
+                if arch == "arm64" or arch == "aarch64" then arch = "arm64" end
 
-        arch = arch:lower()
-        if arch == "amd64" or arch == "x86_64" then arch = "x86_64" end
-            if arch == "arm64" or arch == "aarch64" then arch = "arm64" end
+                    ------------------------------------------------------------
+                    -- 4. System‑wide tool detection
+                    ------------------------------------------------------------
+                    local function tool_exists(name)
+                    local cmd = is_windows
+                    and ('where ' .. name .. ' >nul 2>nul')
+                    and ('command -v ' .. name .. ' >/dev/null 2>&1')
 
-                -- 6. Select toolchain paths
-                local LUA_PATH
-                local GFORTRAN_PATH
-                local NASM_PATH
+                    local ok = os.execute(cmd)
+                    return ok == true or ok == 0
+                    end
 
-                if is_windows then
-                    LUA_PATH      = cfg["LUA_WIN_" .. arch]
-                    GFORTRAN_PATH = cfg["GFORTRAN_WIN_" .. arch]
-                    NASM_PATH     = cfg["NASM_WIN_" .. arch]
-                    else
-                        LUA_PATH      = cfg["LUA_UNIX_" .. arch]
-                        GFORTRAN_PATH = cfg["GFORTRAN_UNIX_" .. arch]
-                        NASM_PATH     = cfg["NASM_UNIX_" .. arch]
+                    local function require_tool(name)
+                    if not tool_exists(name) then
+                        print("[GF] Required tool not found:", name)
+                        print("Install it system‑wide or add it to PATH.")
+                        os.exit(1)
+                        end
                         end
 
-                        -- 7. Build local PATH (not global)
-                        local sep = is_windows and ";" or ":"
-                        local LOCAL_PATH = ""
+                        ------------------------------------------------------------
+                        -- 5. Command dispatcher
+                        ------------------------------------------------------------
+                        local cmd = arg[1]
 
-                        local function add(p)
-                        if p then
-                            LOCAL_PATH = LOCAL_PATH .. SDK_ROOT .. "/" .. p .. sep
+                        ------------------------------------------------------------
+                        -- doctor
+                        ------------------------------------------------------------
+                        if cmd == "doctor" then
+                            print("GF SDK Diagnostics")
+                            print("-------------------")
+                            print("OS:         ", osname)
+                            print("Arch:       ", arch)
+                            print("Script Dir: ", SCRIPT_DIR)
+                            print("SDK Root:   ", SDK_ROOT)
+                            print("")
+                            print("System Tools:")
+                            print("  gfortran: ", tool_exists("gfortran") and "yes" or "no")
+                            print("  lua:      ", tool_exists("lua") and "yes" or "no")
+                            print("  nasm:     ", tool_exists("nasm") and "yes" or "no")
+                            print("")
+                            return
                             end
-                            end
 
-                            add(LUA_PATH)
-                            add(GFORTRAN_PATH)
-                            add(NASM_PATH)
-
-                            -- Append system PATH
-                            LOCAL_PATH = LOCAL_PATH .. os.getenv("PATH")
-
-                            -- 8. Command dispatcher
-                            local cmd = arg[1]
-
-                            -- doctor
-                            if cmd == "doctor" then
-                                print("GF SDK Diagnostics")
-                                print("-------------------")
-                                print("OS:         ", osname)
-                                print("Arch:       ", arch)
-                                print("Script Dir: ", SCRIPT_DIR)
-                                print("SDK Root:   ", SDK_ROOT)
-                                print("")
-                                print("Toolchain Paths:")
-                                print("  Lua:      ", LUA_PATH or "not found")
-                                print("  GFortran: ", GFORTRAN_PATH or "not found")
-                                print("  NASM:     ", NASM_PATH or "not found")
-                                print("")
-                                print("Local PATH:")
-                                print(LOCAL_PATH)
+                            ------------------------------------------------------------
+                            -- hello
+                            ------------------------------------------------------------
+                            if cmd == "hello" then
+                                print("Hello from the unified GF CLI!")
                                 return
                                 end
 
-                                -- hello
-                                if cmd == "hello" then
-                                    print("Hello from the unified GF CLI!")
-                                    return
-                                    end
+                                ------------------------------------------------------------
+                                -- new <project>
+                                ------------------------------------------------------------
+                                if cmd == "new" then
+                                    local name = arg[2]
+                                    if not name then
+                                        print("Usage: gf new <project>")
+                                        return
+                                        end
 
-                                    -- default help
-                                    print("GF CLI")
-                                    print("Usage:")
-                                    print("  gf doctor   - check environment")
-                                    print("  gf hello    - test CLI")
+                                        print("Creating new project:", name)
 
-                                    ------------------------------------------------------------
-                                    -- Command: new <project>
-                                    ------------------------------------------------------------
-                                    if cmd == "new" then
-                                        local name = arg[2]
-                                        if not name then
-                                            print("Usage: gf new <project>")
-                                            return
-                                            end
+                                        if is_windows then
+                                            os.execute('mkdir "' .. name .. '"')
+                                            os.execute('mkdir "' .. name .. '\\src"')
+                                            os.execute('mkdir "' .. name .. '\\build"')
+                                            else
+                                                os.execute('mkdir -p "' .. name .. '/src"')
+                                                os.execute('mkdir -p "' .. name .. '/build"')
+                                                end
 
-                                            print("Creating new project:", name)
-
-                                            -- OS‑specific mkdir
-                                            if is_windows then
-                                                os.execute('mkdir "' .. name .. '"')
-                                                os.execute('mkdir "' .. name .. '\\src"')
-                                                os.execute('mkdir "' .. name .. '\\build"')
-                                                else
-                                                    os.execute('mkdir -p "' .. name .. '/src"')
-                                                    os.execute('mkdir -p "' .. name .. '/build"')
+                                                local path = name .. (is_windows and "\\src\\main.f90" or "/src/main.f90")
+                                                local f = io.open(path, "w")
+                                                if not f then
+                                                    print("Error: could not create file:", path)
+                                                    return
                                                     end
 
-                                                    -- Create main.f90
-                                                    local path = name .. (is_windows and "\\src\\main.f90" or "/src/main.f90")
-                                                    local f = io.open(path, "w")
+                                                    f:write([[
+                                                        program main
+                                                        print *, "Hello from GF-Fortran-SDK!"
+                                                        end program main
+                                                    ]])
+                                                    f:close()
 
-                                                    if not f then
-                                                        print("Error: could not create file:", path)
-                                                        return
-                                                        end
+                                                    print("Project created at ./" .. name)
+                                                    return
+                                                    end
 
-                                                        f:write([[
-                                                            program main
-                                                            print *, "Hello from GF-Fortran-SDK!"
-                                                            end program main
-                                                        ]])
-                                                        f:close()
+                                                    ------------------------------------------------------------
+                                                    -- build <project>
+                                                    ------------------------------------------------------------
+                                                    if cmd == "build" then
+                                                        local name = arg[2]
+                                                        if not name then
+                                                            print("Usage: gf build <project>")
+                                                            return
+                                                            end
 
-                                                        print("Project created at ./" .. name)
-                                                        return
-                                                        end
+                                                            require_tool("gfortran")
 
+                                                            print("Building project:", name)
 
+                                                            local src_dir = name .. "/src"
+                                                            local out = name .. "/build/app"
+                                                            if is_windows then out = out .. ".exe" end
 
-                                                        ------------------------------------------------------------
-                                                        -- Command: build <project>
-                                                        ------------------------------------------------------------
-                                                        if cmd == "build" then
-                                                            local name = arg[2]
-                                                            if not name then
-                                                                print("Usage: gf build <project>")
-                                                                return
-                                                                end
+                                                                local compile_cmd
 
-                                                                print("Building project:", name)
+                                                                if is_windows then
+                                                                    local files = list_f90_files(src_dir)
+                                                                    if #files == 0 then
+                                                                        print("Error: no .f90 files found in " .. src_dir)
+                                                                        return
+                                                                        end
 
-                                                                local src_dir = name .. "/src"
-                                                                local out = name .. "/build/app"
-                                                                if is_windows then out = out .. ".exe" end
-
-                                                                    local compile_cmd
-
-                                                                    if is_windows then
-                                                                        -- Manually list .f90 files
-                                                                        local files = list_f90_files(src_dir)
-                                                                        if #files == 0 then
-                                                                            print("Error: no .f90 files found in " .. src_dir)
-                                                                            return
+                                                                        local file_list = ""
+                                                                        for _, f in ipairs(files) do
+                                                                            file_list = file_list .. '"' .. src_dir .. '\\' .. f .. '" '
                                                                             end
 
-                                                                            -- Build file list
-                                                                            local file_list = ""
-                                                                            for _, f in ipairs(files) do
-                                                                                file_list = file_list .. '"' .. src_dir .. '\\' .. f .. '" '
+                                                                            compile_cmd = 'gfortran ' .. file_list .. ' -o "' .. out .. '"'
+                                                                            else
+                                                                                compile_cmd = 'gfortran ' .. src_dir .. '/*.f90 -o ' .. out
                                                                                 end
 
-                                                                                compile_cmd = 'set "PATH=' .. LOCAL_PATH .. '" & gfortran ' .. file_list .. ' -o "' .. out .. '"'
+                                                                                os.execute(compile_cmd)
 
-                                                                                else
-                                                                                    -- Linux/macOS: wildcard expansion works
-                                                                                    compile_cmd = 'PATH="' .. LOCAL_PATH .. '" gfortran ' .. src_dir .. '/*.f90 -o ' .. out
-                                                                                    end
+                                                                                print("Build complete → " .. out)
+                                                                                return
+                                                                                end
 
-                                                                                    os.execute(compile_cmd)
+                                                                                ------------------------------------------------------------
+                                                                                -- run <project>
+                                                                                ------------------------------------------------------------
+                                                                                if cmd == "run" then
+                                                                                    local name = arg[2]
+                                                                                    if not name then
+                                                                                        print("Usage: gf run <project>")
+                                                                                        return
+                                                                                        end
 
-                                                                                    print("Build complete → " .. out)
-                                                                                    return
-                                                                                    end
+                                                                                        local exe = name .. "/build/app"
+                                                                                        if is_windows then exe = name .. "\\build\\app.exe" end
 
+                                                                                            local f = io.open(exe, "rb")
+                                                                                            if not f then
+                                                                                                print("Error: executable not found:", exe)
+                                                                                                print("Hint: run 'gf build " .. name .. "' first")
+                                                                                                return
+                                                                                                end
+                                                                                                f:close()
 
-                                                                                    ------------------------------------------------------------------------------------------------------
-                                                                                    -- Command: run <project>
-                                                                                    ------------------------------------------------------------
-                                                                                    if cmd == "run" then
-                                                                                        local name = arg[2]
-                                                                                        if not name then
-                                                                                            print("Usage: gf run <project>")
-                                                                                            return
-                                                                                            end
+                                                                                                print("Running:", exe)
 
-                                                                                            -- Build executable path
-                                                                                            local exe = name .. "/build/app"
-                                                                                            if is_windows then
-                                                                                                exe = name .. "\\build\\app.exe"   -- Windows path
+                                                                                                local run_cmd = is_windows and ('"' .. exe .. '"') or ("./" .. exe)
+                                                                                                os.execute(run_cmd)
+                                                                                                return
                                                                                                 end
 
-                                                                                                -- Check if executable exists
-                                                                                                local f = io.open(exe, "rb")
-                                                                                                if not f then
-                                                                                                    print("Error: executable not found:", exe)
-                                                                                                    print("Hint: run 'gf build " .. name .. "' first")
-                                                                                                    return
-                                                                                                    end
-                                                                                                    f:close()
+                                                                                                ------------------------------------------------------------
+                                                                                                -- clean <project>
+                                                                                                ------------------------------------------------------------
+                                                                                                if cmd == "clean" then
+                                                                                                    local name = arg[2]
+                                                                                                    if not name then
+                                                                                                        print("Usage: gf clean <project>")
+                                                                                                        return
+                                                                                                        end
 
-                                                                                                    print("Running:", exe)
+                                                                                                        local build_dir = name .. (is_windows and "\\build" or "/build")
 
-                                                                                                    -- Execute
-                                                                                                    local run_cmd
-                                                                                                    if is_windows then
-                                                                                                        run_cmd = '."' .. "\\" .. exe .. '"'   -- .\hello2\build\app.exe
-                                                                                                        else
-                                                                                                            run_cmd = "./" .. exe
-                                                                                                            end
+                                                                                                        print("Cleaning project:", name)
 
-                                                                                                            os.execute(run_cmd)
-                                                                                                            return
-                                                                                                            end
+                                                                                                        if is_windows then
+                                                                                                            os.execute('rmdir /S /Q "' .. build_dir .. '"')
+                                                                                                            os.execute('mkdir "' .. build_dir .. '"')
+                                                                                                            else
+                                                                                                                os.execute('rm -rf "' .. build_dir .. '"')
+                                                                                                                os.execute('mkdir -p "' .. build_dir .. '"')
+                                                                                                                end
 
+                                                                                                                print("Clean complete → " .. build_dir)
+                                                                                                                return
+                                                                                                                end
 
-                                                                                                            ------------------------------------------------------------
-                                                                                                            -- Command: clean <project>
-                                                                                                            ------------------------------------------------------------
-                                                                                                            if cmd == "clean" then
-                                                                                                                local name = arg[2]
-                                                                                                                if not name then
-                                                                                                                    print("Usage: gf clean <project>")
-                                                                                                                    return
-                                                                                                                    end
-
-                                                                                                                    local build_dir = name .. (is_windows and "\\build" or "/build")
-
-                                                                                                                    print("Cleaning project:", name)
-
-                                                                                                                    -- Remove build directory
-                                                                                                                    if is_windows then
-                                                                                                                        os.execute('rmdir /S /Q "' .. build_dir .. '"')
-                                                                                                                        os.execute('mkdir "' .. build_dir .. '"')
-                                                                                                                        else
-                                                                                                                            os.execute('rm -rf "' .. build_dir .. '"')
-                                                                                                                            os.execute('mkdir -p "' .. build_dir .. '"')
-                                                                                                                            end
-
-                                                                                                                            print("Clean complete → " .. build_dir)
-                                                                                                                            return
-                                                                                                                            end
-
-
+                                                                                                                ------------------------------------------------------------
+                                                                                                                -- Default help
+                                                                                                                ------------------------------------------------------------
+                                                                                                                print("GF CLI")
+                                                                                                                print("Usage:")
+                                                                                                                print("  gf doctor   - check environment")
+                                                                                                                print("  gf hello    - test CLI")
+                                                                                                                print("  gf new      - create project")
+                                                                                                                print("  gf build    - build project")
+                                                                                                                print("  gf run      - run project")
+                                                                                                                print("  gf clean    - clean build directory")

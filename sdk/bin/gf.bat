@@ -1,18 +1,22 @@
 @echo off
+setlocal
 
-REM --- Determine script directory (sdk/bin) ---
-set SCRIPT_DIR=%~dp0
+:: Detect gfortran
+where gfortran >nul 2>nul
+if errorlevel 1 (
+    echo [GF] gfortran not found in PATH.
+    echo Install a system-wide compiler or adjust your PATH.
+    exit /b 1
+)
 
-REM --- SDK root = one folder above sdk/bin ---
-set SDK_ROOT=%SCRIPT_DIR%\..
+:: Detect lua (optional)
+where lua >nul 2>nul
+if errorlevel 1 (
+    echo [GF] lua not found in PATH. Lua features will be disabled.
+)
 
-REM --- Normalize slashes ---
-set SDK_ROOT=%SDK_ROOT:\=/%
+:: Set SDK root
+set GF_SDK_ROOT=%~dp0..
 
-REM --- Prepend toolchain paths ---
-set PATH=%SDK_ROOT%/../tools/bin/lua/windows/x86_64;%PATH%
-set PATH=%SDK_ROOT%/../tools/bin/gfortran/windows/x86_64;%PATH%
-set PATH=%SDK_ROOT%/../tools/bin/nasm/windows/x86_64;%PATH%
-
-REM --- Run unified CLI ---
-lua "%SDK_ROOT%/../sdk/scripts/gf.lua" %*
+:: Run GF CLI
+lua "%GF_SDK_ROOT%\scripts\gf.lua" %*
