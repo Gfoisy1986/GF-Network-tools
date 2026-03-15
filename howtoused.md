@@ -38,20 +38,23 @@ Voici quelques exemples sous Linux :
 C’est juste un petit test pour vérifier que tout fonctionne.
 
 ▶️ Commandes principales
-Code
+```bash
 ./gf.sh doctor
 → Vérifie l’environnement, les dépendances et l’état du SDK.
 
-Code
+```bash
 ./gf.sh new @ARG
+```
 → Crée un nouveau module/projet nommé @ARG.
 
-Code
+```bash
 ./gf.sh build @ARG
+```
 → Compile @ARG.
 
-Code
+```bash
 ./gf.sh clean @ARG
+```
 → Nettoie les fichiers générés pour @ARG.
 
 ---
@@ -82,27 +85,32 @@ A Lua script is included to simplify common tasks.
 Here are some Linux examples:
 
 ▶️ Quick test
-Code
+```bash
 ./gf.sh hello
+```
 Output: Hello from the unified GF CLI!
 
 This is just a small test to confirm everything works.
 
 ▶️ Main commands
-Code
+```bash
 ./gf.sh doctor
+```
 → Checks environment, dependencies, and SDK status.
 
-Code
+```bash
 ./gf.sh new @ARG
+```
 → Creates a new module/project named @ARG.
 
-Code
+```bash
 ./gf.sh build @ARG
+```
 → Builds @ARG.
 
-Code
+```bash
 ./gf.sh clean @ARG
+```
 → Cleans generated files for @ARG.
 
 ---
