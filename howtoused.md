@@ -40,6 +40,7 @@ C’est juste un petit test pour vérifier que tout fonctionne.
 ▶️ Commandes principales
 ```bash
 ./gf.sh doctor
+```
 → Vérifie l’environnement, les dépendances et l’état du SDK.
 
 ```bash
