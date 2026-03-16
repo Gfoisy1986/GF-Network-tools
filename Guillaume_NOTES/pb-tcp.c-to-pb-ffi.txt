@@ -1,0 +1,162 @@
+Absolutely — and this is a fun one because PureBasic’s FFI is *very* straightforward once you see the pattern.  
+Let’s walk through it cleanly and give you a **ready‑to‑use PureBasic import** for your `tcp.c` wrapper.
+
+---
+
+# 🔧 Your C wrapper (recap)
+
+```c
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+
+int tcp_listen(int port)
+{
+    int sock = socket(AF_INET, SOCK_STREAM, 0);
+
+    struct sockaddr_in addr;
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(port);
+    addr.sin_addr.s_addr = INADDR_ANY;
+
+    bind(sock, (struct sockaddr*)&addr, sizeof(addr));
+    listen(sock, 5);
+
+    return sock;
+}
+
+int tcp_accept(int sock)
+{
+    return accept(sock, NULL, NULL);
+}
+```
+
+This produces two exported functions:
+
+- `int tcp_listen(int port)`
+- `int tcp_accept(int sock)`
+
+Both return a file descriptor (int).
+
+---
+
+# 🟦 Step 1 — Compile your wrapper into a shared library
+
+### Linux / BSD / macOS:
+```bash
+gcc -shared -fPIC tcp.c -o libtcp.so
+```
+
+### Windows (MinGW):
+```bash
+gcc -shared tcp.c -o tcp.dll
+```
+
+---
+
+# 🟩 Step 2 — PureBasic FFI (ImportC)
+
+PureBasic can directly import C functions using `ImportC`.
+
+Here is the exact PureBasic code you need:
+
+```purebasic
+ImportC "libtcp.so" ; or "tcp.dll" on Windows
+  tcp_listen(port.i) As "_tcp_listen"
+  tcp_accept(sock.i) As "_tcp_accept"
+EndImport
+```
+
+### Why the `As "_tcp_listen"`?
+- On Linux/macOS: symbols are exported as `tcp_listen`
+- On Windows (MinGW): symbols often get a leading underscore `_tcp_listen`
+
+If you want cross‑platform safety, you can do:
+
+```purebasic
+CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+  ImportC "tcp.dll"
+    tcp_listen(port.i) As "_tcp_listen"
+    tcp_accept(sock.i) As "_tcp_accept"
+  EndImport
+CompilerElse
+  ImportC "libtcp.so"
+    tcp_listen(port.i)
+    tcp_accept(sock.i)
+  EndImport
+CompilerEndIf
+```
+
+---
+
+# 🟧 Step 3 — Using it in PureBasic
+
+Example: simple blocking server
+
+```purebasic
+sock = tcp_listen(8080)
+
+If sock < 0
+  MessageRequester("Error", "Failed to listen on port 8080")
+  End
+EndIf
+
+MessageRequester("Info", "Listening on port 8080...")
+
+client = tcp_accept(sock)
+
+If client >= 0
+  MessageRequester("Info", "Client connected!")
+EndIf
+```
+
+PureBasic can then use:
+
+- `ReceiveNetworkData(client, *buffer, size)`
+- `SendNetworkData(client, *buffer, size)`
+- or even `ReadData()` / `WriteData()` since it's a raw file descriptor on Linux.
+
+---
+
+# 🟪 Optional: Make the C wrapper PureBasic‑friendly
+
+If you want to be extra nice to PB:
+
+### Add `extern "C"` guards (for C++ compatibility)
+```c
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+int tcp_listen(int port);
+int tcp_accept(int sock);
+
+#ifdef __cplusplus
+}
+#endif
+```
+
+### Add error handling (recommended)
+Right now your C code ignores bind/listen errors.  
+PureBasic will get `-1` but won’t know why.
+
+---
+
+# 🟨 Summary
+
+### ✔ Yes, PureBasic can FFI your C wrapper easily  
+### ✔ Use `ImportC`  
+### ✔ Use `.i` for integer parameters  
+### ✔ Use platform‑specific library names  
+### ✔ Your wrapper is already compatible  
+
+---
+
+If you want, I can also:
+
+- Add `tcp_connect()`, `tcp_send()`, `tcp_recv()`, `tcp_close()`  
+- Make a **cross‑platform** wrapper (Windows + Linux + BSD)  
+- Show how to wrap TLS (OpenSSL or mbedTLS)  
+- Show how to build a PureBasic module around your C library  
+
+Just tell me what direction you want next.
