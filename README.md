@@ -1,4 +1,7 @@
-![Project Logo](assets/gf-netstack.png)
+
+<p align="center">
+  <img src="assets/gf-netstack.png" width="300">
+</p>
 
 
 
