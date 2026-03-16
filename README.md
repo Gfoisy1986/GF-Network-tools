@@ -1,4 +1,4 @@
-# GF‑Fortran‑SDK (Fortran95)
+# GF‑NetStack (Fortran95) (Purebasic)
 
 ### En cours de développement...  Currently in development...
 
@@ -8,7 +8,7 @@
   <summary>🇫🇷 Version Française</summary>
 
  
-## SDK moderne, modulaire et extensible pour Fortran95
+## SDK moderne, modulaire et extensible pour Fortran95 & Purebasic
 
 
 ## 🧱 Backend réseau moderne
@@ -18,18 +18,6 @@
 - Gestion multi‑clients via `select()`  
 - WebSocket conforme **RFC 6455**
 
----
-
-## 🧩 API haut niveau intuitive
-Inspirée de PureBasic, elle masque toute la complexité interne :
-
-```fortran
-conn = OpenNetworkConnection("example.com", 443, useTLS = .true.)
-call SendString(conn, "ping")
-reply = ReceiveString(conn)
-
-etc...
-```
 
 ---
 
@@ -42,7 +30,7 @@ etc...
 <details>
   <summary>🇬🇧 English Version</summary>
 
-# GF‑Fortran‑SDK  
+### SDK modern, modular and extensible for Fortran95 & Purebasic 
 
 
 ## 🧱 Modern Network Backend
@@ -52,18 +40,6 @@ etc...
 - Multi‑client handling via `select()`  
 - WebSocket compliant with **RFC 6455**
 
----
-
-## 🧩 Simple and intuitive high‑level API
-Inspired by PureBasic, hiding all internal complexity:
-
-```fortran
-conn = OpenNetworkConnection("example.com", 443, useTLS = .true.)
-call SendString(conn, "ping")
-reply = ReceiveString(conn)
-
-etc...
-```
 
 ---
 
@@ -77,6 +53,6 @@ etc...
 
 * Guillaume Foisy  
 
-* Passionné par la modernisation de l’écosystème Fortran
+* Passionné par la modernisation de l’écosystème Fortran & Purebasic
 
-* Dedicated to modernizing the Fortran ecosystem
+* Dedicated to modernizing the Fortran & Purebasic ecosystem
