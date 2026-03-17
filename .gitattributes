@@ -13,6 +13,9 @@
 *.lua linguist-vendored
 *.sh  linguist-vendored
 *.ps1 linguist-vendored
+*.bat linguist-vendored
+*.c   linguist-vendored
+*.MakeFiles linguist-vendored
 
 # Keep Git behavior normal
 * text=auto
