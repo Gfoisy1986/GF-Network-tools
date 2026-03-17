@@ -90,7 +90,7 @@ Ce test permet simplement de vérifier que tout fonctionne correctement.
 → Supprime les fichiers générés pour @ARG.
 
 
-* Démarrée l'apllication nommée @ARG...
+* Démarrée l'apllication
 
 ```bash
 ./gf.sh run @ARG
@@ -187,7 +187,7 @@ This simple test ensures everything is working correctly.
 
 → Removes generated files for @ARG.
 
-* ▶️ Run the application named @ARG
+* ▶️ Run the application
 
 ```bash
 ./gf.sh run @ARG
