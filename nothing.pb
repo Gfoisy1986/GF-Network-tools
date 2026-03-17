@@ -20,7 +20,7 @@ EndEnumeration
 Procedure.s Exec(script$, run$)
   Protected p, shPath$, line$, out$
   
-  shPath$ = GetPathPart(ProgramFilename()) + "script/"
+  shPath$ = GetPathPart(ProgramFilename()) + "script/linux/"
   p = RunProgram(script$ , run$, shPath$, #PB_Program_Open | #PB_Program_Read | #PB_Program_Hide)
   If p
    While ProgramRunning(p)
@@ -73,9 +73,9 @@ If OpenConsole()
 EndIf
 ; IDE Options = PureBasic 6.30 (Linux - x64)
 ; ExecutableFormat = Console
-; CursorPosition = 21
+; CursorPosition = 22
 ; FirstLine = 9
 ; Folding = -
 ; EnableXP
 ; DPIAware
-; Executable = gf.sh
+; Executable = bin/GF-CLI.sh
