@@ -5,7 +5,4 @@
 *.f08 linguist-language=Fortran
 *.f   linguist-language=Fortran
 
-# Force PureBasic files to be counted as PureBasic
-*.pb linguist-language=PureBasic
-*.pbi linguist-language=PureBasic
 
