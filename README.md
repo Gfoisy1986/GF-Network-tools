@@ -142,6 +142,104 @@ Format des messages :
 
 ---
 
+
+# 🇫🇷 **🌐 Vision du Projet – GF NetStack**
+
+L’objectif à long terme du projet **GF NetStack** est d’offrir un **SDK réseau complet, moderne et multiplateforme**, destiné à Fortran95, PureBasic, Lua et C.  
+TLSv2 n’est que la première brique : une couche sécurisée, stable et extensible.
+
+La vision globale inclut :
+
+---
+
+## 🔌 **1. WebSocket sécurisé (WSS)**
+- Basé sur la couche TLSv2 existante  
+- Support du handshake WebSocket  
+- Frames texte/binaire  
+- Ping/Pong WebSocket natif  
+- Idéal pour interfaces web, dashboards, streaming léger
+
+---
+
+## 📧 **2. SMTP sécurisé (SMTPS)**
+- Envoi d’e-mails via TLS  
+- Authentification LOGIN / PLAIN  
+- Support des pièces jointes (MIME)  
+- Intégration simple côté PB & Fortran
+
+---
+
+## 📥 **3. POP3 sécurisé (POP3S)**
+- Récupération d’e-mails via TLS  
+- Listing, téléchargement, suppression  
+- Parsing minimal des entêtes  
+- Idéal pour monitoring ou automatisation
+
+---
+
+## 🌍 **4. HTTPS minimaliste**
+- Client HTTP/HTTPS basé sur TLSv2  
+- GET / POST / PUT / DELETE  
+- JSON intégré  
+- Parfait pour API REST
+
+---
+
+## 🗄️ **5. Bindings bases de données**
+Le SDK vise à fournir des connecteurs simples et modernes :
+
+### 🔹 SQLiteCloud  
+- Connexion distante  
+- Exécution de requêtes  
+- Réception de tables via JSON  
+- Parfait pour apps légères et distribuées
+
+### 🔹 PostgreSQL  
+- Connexion TLS  
+- Requêtes préparées  
+- Support JSONB  
+- Idéal pour backend sérieux
+
+### 🔹 MySQL / MariaDB  
+- Connexion TLS  
+- Requêtes simples  
+- Résultats tabulaires  
+- Très utile pour projets PB/Fortran existants
+
+---
+
+## 🧩 **6. Modules PB & Fortran prêts à l’emploi**
+- `GF.Net.TLSv2`  
+- `GF.Net.WebSocket`  
+- `GF.Net.SMTP`  
+- `GF.Net.POP3`  
+- `GF.Net.HTTP`  
+- `GF.DB.SQLiteCloud`  
+- `GF.DB.PostgreSQL`  
+- `GF.DB.MySQL`
+
+Chaque module sera :
+
+- autonome  
+- documenté  
+- multiplateforme  
+- facile à intégrer dans n’importe quel projet
+
+---
+
+## 🚀 **7. Vision globale**
+Créer un **SDK réseau complet**, moderne, sécurisé, modulaire, qui permet à Fortran95 et PureBasic de :
+
+- communiquer en TLS  
+- dialoguer avec des bases de données modernes  
+- envoyer/recevoir des e‑mails  
+- consommer des API HTTPS  
+- utiliser WebSocket  
+- et tout ça avec une API simple, stable et cohérente.
+
+---
+
+
 ## 🧰 Command‑Line Interface (CLI)   (Ne fonctione pas en ce moment...)
 J’ai écrit un petit script Lua pour simplifier les tâches courantes du SDK.
 Il fonctionne de manière identique sur Windows, Linux et macOS.
@@ -352,7 +450,101 @@ Each message is encoded as:
 
 
 ---
+# 🇬🇧 **🌐 Project Vision – GF NetStack**
 
+The long‑term goal of **GF NetStack** is to provide a **complete, modern, cross‑platform networking SDK** for Fortran95, PureBasic, Lua, and C.  
+TLSv2 is only the first building block: a secure, stable, extensible communication layer.
+
+The broader vision includes:
+
+---
+
+## 🔌 **1. Secure WebSocket (WSS)**
+- Built on top of TLSv2  
+- WebSocket handshake  
+- Text/Binary frames  
+- Native WebSocket Ping/Pong  
+- Ideal for dashboards, web UIs, lightweight streaming
+
+---
+
+## 📧 **2. Secure SMTP (SMTPS)**
+- Send emails over TLS  
+- LOGIN / PLAIN authentication  
+- MIME attachments  
+- Easy integration for PB & Fortran
+
+---
+
+## 📥 **3. Secure POP3 (POP3S)**
+- Retrieve emails over TLS  
+- List, download, delete  
+- Minimal header parsing  
+- Great for automation and monitoring
+
+---
+
+## 🌍 **4. Minimal HTTPS Client**
+- HTTP/HTTPS client built on TLSv2  
+- GET / POST / PUT / DELETE  
+- JSON‑friendly  
+- Perfect for REST APIs
+
+---
+
+## 🗄️ **5. Database Bindings**
+The SDK aims to provide modern, simple connectors:
+
+### 🔹 SQLiteCloud  
+- Remote connection  
+- Query execution  
+- Table results via JSON  
+- Great for distributed lightweight apps
+
+### 🔹 PostgreSQL  
+- TLS connection  
+- Prepared statements  
+- JSONB support  
+- Ideal for serious backend work
+
+### 🔹 MySQL / MariaDB  
+- TLS connection  
+- Simple queries  
+- Tabular results  
+- Useful for existing PB/Fortran projects
+
+---
+
+## 🧩 **6. Ready‑to‑use PB & Fortran Modules**
+- `GF.Net.TLSv2`  
+- `GF.Net.WebSocket`  
+- `GF.Net.SMTP`  
+- `GF.Net.POP3`  
+- `GF.Net.HTTP`  
+- `GF.DB.SQLiteCloud`  
+- `GF.DB.PostgreSQL`  
+- `GF.DB.MySQL`
+
+Each module will be:
+
+- standalone  
+- documented  
+- cross‑platform  
+- easy to integrate
+
+---
+
+## 🚀 **7. Global Vision**
+Build a **complete, modern, secure, modular networking SDK** that allows Fortran95 and PureBasic to:
+
+- communicate over TLS  
+- talk to modern databases  
+- send/receive emails  
+- consume HTTPS APIs  
+- use WebSocket  
+- all through a simple, stable, unified API.
+
+---
 
 ## 🧰 Command‑Line Interface (CLI)  (Not working at this time...)
 I wrote a small Lua script to simplify common SDK tasks.
