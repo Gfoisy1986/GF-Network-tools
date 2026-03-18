@@ -25,5 +25,9 @@
 # PowerShell
 *.ps1  linguist-language=PowerShell
 
+*.dll   linguist-vendored
+*.so    linguist-vendored
+*.dylib linguist-vendored
+
 # Keep Git behavior normal
 * text=auto
