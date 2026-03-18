@@ -17,13 +17,13 @@
 *.h    linguist-language=C
 
 # Shell scripts
-*.sh   linguist-language=Shell
+*.sh   linguist-vendored
 
 # Windows batch
-*.bat  linguist-language=Batchfile
+*.bat  linguist-vendored
 
 # PowerShell
-*.ps1  linguist-language=PowerShell
+*.ps1  linguist-vendored
 
 *.dll   linguist-vendored
 *.so    linguist-vendored
