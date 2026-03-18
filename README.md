@@ -329,6 +329,9 @@ Complete, modern, secure SDK.
 ---
 
 # CLI – Command Line Interface
+
+(Not working right now...)
+
 Commands: doctor, new, build, clean, run.
 
 ---
