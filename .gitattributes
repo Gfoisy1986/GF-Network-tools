@@ -5,16 +5,25 @@
 *.f08 linguist-language=Fortran
 *.f   linguist-language=Fortran
 
-
-# PureBasic → mapped to BASIC (best match)
+# PureBasic → mapped to PureBasic
 *.pb  linguist-language=PureBasic
 *.pbi linguist-language=PureBasic
-
 
 # Lua
 *.lua linguist-language=Lua
 
+# C language
+*.c    linguist-language=C
+*.h    linguist-language=C
 
+# Shell scripts
+*.sh   linguist-language=Shell
+
+# Windows batch
+*.bat  linguist-language=Batchfile
+
+# PowerShell
+*.ps1  linguist-language=PowerShell
 
 # Keep Git behavior normal
 * text=auto
