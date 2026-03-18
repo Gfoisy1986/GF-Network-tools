@@ -206,6 +206,13 @@ Le SDK vise à fournir des connecteurs simples et modernes :
 - Résultats tabulaires  
 - Très utile pour projets PB/Fortran existants
 
+### 🔹 SQLite
+- Connexion locale (fichier .db)
+- Exécution de requêtes SQL
+- Récupération de résultats sous forme de tables JSON
+- Support des requêtes préparées
+- Intégration transparente avec le protocole TLSv2 (pour synchronisation distante)
+- Compatibilité totale avec SQLite 3.x
 ---
 
 ## 🧩 **6. Modules PB & Fortran prêts à l’emploi**
@@ -217,6 +224,7 @@ Le SDK vise à fournir des connecteurs simples et modernes :
 - `GF.DB.SQLiteCloud`  
 - `GF.DB.PostgreSQL`  
 - `GF.DB.MySQL`
+- `GF.DB.SQLite (local)`
 
 Chaque module sera :
 
@@ -513,6 +521,14 @@ The SDK aims to provide modern, simple connectors:
 - Tabular results  
 - Useful for existing PB/Fortran projects
 
+### 🔹 SQLite
+- Local connection (SQLite file)
+- SQL query execution
+- Result sets returned as JSON tables
+- Prepared statement support
+- Seamless integration with TLSv2 protocol (for remote sync)
+- Full compatibility with SQLite 3.x
+
 ---
 
 ## 🧩 **6. Ready‑to‑use PB & Fortran Modules**
@@ -524,6 +540,7 @@ The SDK aims to provide modern, simple connectors:
 - `GF.DB.SQLiteCloud`  
 - `GF.DB.PostgreSQL`  
 - `GF.DB.MySQL`
+- `GF.DB.SQLite (local)`
 
 Each module will be:
 
