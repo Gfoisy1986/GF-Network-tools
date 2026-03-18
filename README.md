@@ -58,7 +58,7 @@ Je vais te livrer un **README complet**, prêt à coller dans ton repo.
   - [Modules PB & Fortran](#6-modules-pb--fortran-prêts-à-lemploi)
   - [Vision globale](#7-vision-globale)
 - [CLI – Interface en ligne de commande](#cli--interface-en-ligne-de-commande)
-- [Structure du projet](#structure-du-projet)
+
 
 ---
 
@@ -262,7 +262,7 @@ Commandes :
   - [PB & Fortran Modules](#6-ready-to-use-pb--fortran-modules)
   - [Global Vision](#7-global-vision)
 - [CLI – Command Line Interface](#cli--command-line-interface)
-- [Project Structure](#project-structure)
+
 
 ---
 
