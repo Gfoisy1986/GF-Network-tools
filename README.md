@@ -16,12 +16,128 @@
 ### SDK moderne, modulaire et extensible pour Fortran95 & Purebasic
 
 
-## 🧱 Backend réseau moderne
-- Modules indépendants : **TCP**, **TLS**, **WebSocket**  
-- Wrappers C minimalistes pour contourner les limites du standard F95 & Purebasic 
-- Architecture propre, stable et maintenable  
-- Gestion multi‑clients via `select()`  
-- WebSocket conforme **RFC 6455**
+## 📚 Table des matières
+- [Introduction](#-introduction)
+- [Architecture](#-architecture)
+  - [Serveur TLS (C)](#serveur-tls-c)
+  - [Client TLS (C)](#client-tls-c)
+  - [Wrapper PureBasic](#wrapper-purebasic)
+  - [Protocole JSON](#protocole-json)
+- [Framing JSON](#-framing-json)
+- [Exemples PureBasic](#-exemples-purebasic)
+- [Sécurité](#-sécurité)
+- [Fonctionnalités actuelles](#-fonctionnalités-actuelles)
+- [Prochaines étapes](#-prochaines-étapes)
+- [Structure du projet](#-structure-du-projet)
+
+---
+
+## 🔐 Introduction
+TLSv2 est une couche de communication sécurisée basée sur :
+
+- TLS (OpenSSL)  
+- Un framing JSON robuste (4 bytes length + payload UTF‑8)  
+- Un wrapper C stable  
+- Des bindings PureBasic fonctionnels  
+- Une architecture prête pour Fortran, Lua, PB, C, etc.
+
+Objectif : fournir une base solide pour créer des protocoles applicatifs (commandes, messages, tables) sans se battre avec TLS ou les buffers.
+
+---
+
+## 🧱 Architecture
+
+### Serveur TLS (C)
+- Non‑bloquant  
+- Multi‑clients  
+- Basé sur `select()`  
+- Handshake TLS automatique  
+- Callbacks vers PB/C :  
+  - `on_client_connected`  
+  - `on_client_disconnected`  
+  - `on_json_received`  
+
+### Client TLS (C)
+- Bloquant (simple et fiable)  
+- `tlsv2_client_send_json()`  
+- `tlsv2_client_recv_json()`  
+- Parfait pour PB, Fortran, Lua, etc.
+
+### Wrapper PureBasic
+- Import direct du `.so/.dll/.dylib`  
+- Callbacks PB → C  
+- Fonctions client et serveur exposées  
+- `ReceiveJSON()` sécurisé (UTF‑8, null‑terminated)
+
+### Protocole JSON
+Types supportés :
+
+| Type | Description |
+|------|-------------|
+| `"text"` | Messages texte |
+| `"command"` | Commandes (PING → PONG) |
+| `"table"` | Réponses structurées (ex: SELECT_ALL) |
+
+---
+
+## 📡 Framing JSON
+Format des messages :
+
+```
+[4 bytes length][JSON UTF‑8 payload]
+```
+
+- Longueur = uint32 big‑endian  
+- JSON UTF‑8 propre  
+- Compatible avec tous les langages
+
+---
+
+## 🧪 Exemples PureBasic
+
+### Serveur PB
+- Reçoit JSON  
+- Dispatch selon `"type"`  
+- Répond automatiquement  
+- Exemples : TEXT, PING/PONG, TABLE
+
+### Client PB
+- Envoie TEXT → reçoit réponse  
+- Envoie PING → reçoit PONG  
+- Envoie TABLE → reçoit données structurées  
+- `ReceiveJSON()` bloque jusqu’à réception complète
+
+---
+
+## 🔒 Sécurité
+- TLS 1.2+ via OpenSSL  
+- Certificat PEM + clé privée  
+- Fermeture propre (SSL_shutdown)
+
+---
+
+## ✔ Fonctionnalités actuelles
+- Serveur TLS multi‑clients  
+- Client TLS stable  
+- Framing JSON robuste  
+- PureBasic serveur + client  
+- PING/PONG  
+- TEXT → reply  
+- TABLE → données structurées  
+- Buffers synchronisés (65536 bytes)  
+- Aucun crash, aucune corruption mémoire  
+- `.gitattributes` propre  
+
+---
+
+## 🚧 Prochaines étapes
+- Bindings Fortran  
+- Module PB “TLSv2Client”  
+- Authentification  
+- Gestion d’erreurs JSON  
+- Intégration SQLite réelle  
+- Documentation bilingue complète  
+
 
 
 ---
@@ -112,12 +228,127 @@ Ce test permet simplement de vérifier que tout fonctionne correctement.
 ### SDK modern, modular and extensible for Fortran95 & Purebasic 
 
 
-## 🧱 Modern Network Backend
-- Independent modules: **TCP**, **TLS**, **WebSocket**  
-- Minimal C wrappers to overcome F95 & Purebasic limitations  
-- Clean, stable, maintainable architecture  
-- Multi‑client handling via `select()`  
-- WebSocket compliant with **RFC 6455**
+## 📚 Table of Contents
+- [Introduction](#-introduction-1)
+- [Architecture](#-architecture-1)
+  - [TLS Server (C)](#tls-server-c)
+  - [TLS Client (C)](#tls-client-c)
+  - [PureBasic Wrapper](#purebasic-wrapper)
+  - [JSON Protocol](#json-protocol)
+- [JSON Framing](#-json-framing)
+- [PureBasic Examples](#-purebasic-examples)
+- [Security](#-security)
+- [Current Features](#-current-features)
+- [Next Steps](#-next-steps)
+- [Project Structure](#-project-structure)
+
+---
+
+## 🔐 Introduction
+TLSv2 is a secure communication layer built on:
+
+- TLS (OpenSSL)  
+- Robust JSON framing (4 bytes length + UTF‑8 payload)  
+- A clean and stable C wrapper  
+- Functional PureBasic bindings  
+- A design ready for Fortran, Lua, PB, C, and more
+
+Goal: provide a solid foundation for application‑level protocols without fighting TLS or buffer management.
+
+---
+
+## 🧱 Architecture
+
+### TLS Server (C)
+- Non‑blocking  
+- Multi‑client  
+- `select()` based  
+- Automatic TLS handshake  
+- Callbacks to PB/C:  
+  - `on_client_connected`  
+  - `on_client_disconnected`  
+  - `on_json_received`  
+
+### TLS Client (C)
+- Blocking (simple and reliable)  
+- `tlsv2_client_send_json()`  
+- `tlsv2_client_recv_json()`  
+- Ideal for PB, Fortran, Lua, etc.
+
+### PureBasic Wrapper
+- Direct import of `.so/.dll/.dylib`  
+- PB → C callbacks  
+- Exposes client and server functions  
+- Safe `ReceiveJSON()` (UTF‑8, null‑terminated)
+
+### JSON Protocol
+Supported types:
+
+| Type | Description |
+|------|-------------|
+| `"text"` | Simple text messages |
+| `"command"` | Commands (PING → PONG) |
+| `"table"` | Structured responses (e.g., SELECT_ALL) |
+
+---
+
+## 📡 JSON Framing
+Each message is encoded as:
+
+```
+[4 bytes length][JSON UTF‑8 payload]
+```
+
+- Length = uint32 big‑endian  
+- Clean UTF‑8 JSON  
+- Compatible with any language
+
+---
+
+## 🧪 PureBasic Examples
+
+### PB Server
+- Receives JSON  
+- Dispatches based on `"type"`  
+- Automatically replies  
+- Examples: TEXT, PING/PONG, TABLE
+
+### PB Client
+- Sends TEXT → receives reply  
+- Sends PING → receives PONG  
+- Sends TABLE → receives structured data  
+- `ReceiveJSON()` blocks until full message is received
+
+---
+
+## 🔒 Security
+- TLS 1.2+ via OpenSSL  
+- PEM certificate + private key  
+- Clean shutdown (SSL_shutdown)
+
+---
+
+## ✔ Current Features
+- Multi‑client TLS server  
+- Stable TLS client  
+- Robust JSON framing  
+- PureBasic server + client  
+- PING/PONG  
+- TEXT → reply  
+- TABLE → structured data  
+- Synchronized buffers (65536 bytes)  
+- No crashes, no memory corruption  
+- Clean `.gitattributes`  
+
+---
+
+## 🚧 Next Steps
+- Fortran bindings  
+- PB “TLSv2Client” module  
+- Authentication  
+- Standardized JSON error handling  
+- Real SQLite integration  
+- Full bilingual documentation  
 
 
 ---
