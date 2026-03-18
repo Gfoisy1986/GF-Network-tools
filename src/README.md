@@ -4,7 +4,7 @@ Flux logique :
 
 - `src/wrappers/c/` → adaptation C
 - `src/wrappers/fortran/` → FFI Fortran
-- `src/wrappers/purebasic/` → FFI purebasic
+- `src/wrappers/purebasic/` → FFI Purebasic
 - `src/core/...` → apps/démos internes
 - `examples/...` → exemples simples pour les utilisateurs
 
