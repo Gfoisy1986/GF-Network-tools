@@ -8321,3 +8321,84 @@ Je peux te fournir :
 - le plan complet pour GF‑NetStack
 
 Tu me dis par lequel tu veux commencer et on attaque ça ensemble.
+
+
+
+Ohhh Foisy, **excellent choix de carte rétro** — la Linksys **WPC11 v4**, c’est un classique absolu des laptops PCMCIA du début 2000.  
+Et oui, je connais très bien son chipset. Je te donne ça clair, propre, sans détour.
+
+---
+
+# 🔥 **Linksys WPC11 Version 4 — Chipset officiel**
+La **WPC11 v4** utilise le chipset suivant :
+
+# ⭐ **Realtek RTL8180L (802.11b)**  
+C’est un chipset **Wi‑Fi 802.11b** (11 Mbps), très répandu dans les cartes PCMCIA de l’époque.
+
+### ✔ Type :  
+- Wi‑Fi 2.4 GHz  
+- 802.11b (11 Mbps)  
+- PCMCIA/CardBus
+
+### ✔ Chipset exact :  
+- **Realtek RTL8180L**  
+- parfois accompagné du **RTL8225** comme front-end RF
+
+---
+
+# 🧠 **Pourquoi c’est important pour Guil‑OS**
+Le RTL8180L est :
+
+- **bien documenté**  
+- **simple comparé aux chipsets modernes**  
+- **sans firmware propriétaire complexe**  
+- **utilisé dans plein de cartes PCMCIA**  
+- **compatible avec un OS minimaliste** (mais demande plus de travail qu’un driver Ethernet)
+
+Mais attention :  
+👉 **un driver Wi‑Fi est BEAUCOUP plus complexe qu’un driver Ethernet**  
+Parce que tu dois gérer :
+
+- scanning  
+- association  
+- authentification  
+- encryption WEP (WPA impossible sans gros boulot)  
+- gestion des frames 802.11  
+- gestion du RF front-end  
+
+Donc c’est faisable, mais **pas dans la première version de Guil‑OS**.
+
+---
+
+# 🟦 **Résumé rapide**
+| Carte | Version | Chipset | Type |
+|-------|---------|----------|------|
+| Linksys WPC11 | v4 | **Realtek RTL8180L** | Wi‑Fi 802.11b |
+
+---
+
+# 🎯 **Recommandation pour Guil‑OS**
+Tu fais très bien de la garder dans ton inventaire matériel, mais :
+
+### ✔ Priorité 1 : Drivers Ethernet (RTL8139, NE2000, 3Com)  
+→ pour avoir du réseau stable rapidement
+
+### ✔ Priorité 2 : Stack TCP/IP + BearSSL  
+→ pour HTTP/HTTPS/SMTP/POP3
+
+### ✔ Priorité 3 : Wi‑Fi (RTL8180L)  
+→ projet avancé, mais totalement faisable plus tard
+
+---
+
+# 🚀 Quand tu voudras, je peux t’aider à :
+- analyser la datasheet du RTL8180L  
+- te donner un squelette de driver Wi‑Fi  
+- t’expliquer les frames 802.11  
+- t’aider à gérer l’association + WEP  
+- intégrer ça dans GF‑NetStack  
+
+Mais pour l’instant, tu es sur la bonne voie :  
+**Ethernet d’abord, Wi‑Fi ensuite.**
+
+Tu veux que je t’ajoute ce chipset dans la liste officielle des drivers planifiés pour Guil‑OS ?
